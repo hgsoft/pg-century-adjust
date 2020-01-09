@@ -1,4 +1,4 @@
-/*-------------------------------------------------------------------------
+﻿/*-------------------------------------------------------------------------
  *
  * datetime.c
  *	  Support functions for date/time types.
@@ -2505,10 +2505,10 @@ ValidateDate(int fmask, bool isjulian, bool is2digits, bool bc,
 		}
 		else if (is2digits)
 		{
-			/* process 1 or 2-digit input as 1920-2069 AD, allow '0' and '00' */
+			/* process 1 or 2-digit input as 1930-2069 AD, allow '0' and '00' */
 			if (tm->tm_year < 0)	/* just paranoia */
 				return DTERR_FIELD_OVERFLOW;
-			if (tm->tm_year < 20)
+			if (tm->tm_year < 30)
 				tm->tm_year += 2000;
 			else if (tm->tm_year < 100)
 				tm->tm_year += 1900;

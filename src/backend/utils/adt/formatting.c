@@ -1,4 +1,4 @@
-/* -----------------------------------------------------------------------
+﻿/* -----------------------------------------------------------------------
  * formatting.c
  *
  * src/backend/utils/adt/formatting.c
@@ -962,7 +962,7 @@ static void dump_node(FormatNode *node, int max);
 
 static const char *get_th(char *num, int type);
 static char *str_numth(char *dest, char *num, int type);
-static int	adjust_partial_year_to_2080(int year);
+static int	adjust_partial_year_to_2070(int year);
 static int	strspace_len(char *str);
 static void from_char_set_mode(TmFromChar *tmfc, const FromCharDateMode mode);
 static void from_char_set_int(int *dest, const int value, const FormatNode *node);
@@ -2059,16 +2059,16 @@ is_next_separator(FormatNode *n)
 
 
 static int
-adjust_partial_year_to_2080(int year)
+adjust_partial_year_to_2070(int year)
 {
 	/*
-	 * Adjust all dates toward 2080; this is effectively what happens when we
-	 * assume '20' is 1920 and '19' is 2019.
+	 * Adjust all dates toward 2070; this is effectively what happens when we
+	 * assume '30' is 1930 and '29' is 2029.
 	 */
 	/* Force 0-19 into the 2000's */
-	if (year < 20)
+	if (year < 30)
 		return year + 2000;
-	/* Force 20-99 into the 1900's */
+	/* Force 30-99 into the 1900's */
 	else if (year < 100)
 		return year + 1900;
 	/* Force 100-519 into the 2000's */
@@ -3163,21 +3163,21 @@ DCH_from_char(FormatNode *node, char *in, TmFromChar *out)
 			case DCH_YYY:
 			case DCH_IYY:
 				if (from_char_parse_int(&out->year, &s, n) < 4)
-					out->year = adjust_partial_year_to_2080(out->year);
+					out->year = adjust_partial_year_to_2070(out->year);
 				out->yysz = 3;
 				SKIP_THth(s, n->suffix);
 				break;
 			case DCH_YY:
 			case DCH_IY:
 				if (from_char_parse_int(&out->year, &s, n) < 4)
-					out->year = adjust_partial_year_to_2080(out->year);
+					out->year = adjust_partial_year_to_2070(out->year);
 				out->yysz = 2;
 				SKIP_THth(s, n->suffix);
 				break;
 			case DCH_Y:
 			case DCH_I:
 				if (from_char_parse_int(&out->year, &s, n) < 4)
-					out->year = adjust_partial_year_to_2080(out->year);
+					out->year = adjust_partial_year_to_2070(out->year);
 				out->yysz = 1;
 				SKIP_THth(s, n->suffix);
 				break;
